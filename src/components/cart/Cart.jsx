@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import burger1 from "../../assets/burger1.png";
 import burger2 from "../../assets/burger2.png";
 import burger3 from "../../assets/burger3.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const CartItem = ({ value, title, img, increment, decrement }) => (
   <div className="cartItem">
@@ -21,8 +21,9 @@ const CartItem = ({ value, title, img, increment, decrement }) => (
 );
 
 const Cart = () => {
+  // const cheeseBurger = cartItems.cheeseBurger.quantity;
   const {
-    CartItems: {
+    cartItems: {
       cheeseBurger: { quantity: cheeseBurger },
       vegCheeseBurger: { quantity: vegCheeseBurger },
       burgerWithFries: { quantity: burgerWithFries },
@@ -33,9 +34,52 @@ const Cart = () => {
     total,
   } = useSelector((state) => state.cart);
 
-  const increment = (item) => {};
+  const dispatch = useDispatch();
 
-  const decrement = (item) => {};
+  const increment = (item) => {
+    switch (item) {
+      case 1:
+        dispatch({ type: "cheeseBurgerIncrement" });
+        dispatch({ type: "calculatePrice" });
+        break;
+      case 2:
+        dispatch({ type: "vegCheeseBurgerIncrement" });
+        dispatch({ type: "calculatePrice" });
+        break;
+      case 3:
+        dispatch({ type: "burgerWithFriesIncrement" });
+        dispatch({ type: "calculatePrice" });
+        break;
+      default:
+        dispatch({ type: "cheeseBurgerIncrement" });
+        dispatch({ type: "calculatePrice" });
+        break;
+    }
+  };
+
+  const decrement = (item) => {
+    switch (item) {
+      case 1:
+        if (cheeseBurger === 0) break;
+        dispatch({ type: "cheeseBurgerDecrement" });
+        dispatch({ type: "calculatePrice" });
+        break;
+      case 2:
+        if (vegCheeseBurger === 0) break;
+        dispatch({ type: "vegCheeseBurgerDecrement" });
+        dispatch({ type: "calculatePrice" });
+        break;
+      case 3:
+        if (burgerWithFries === 0) break;
+        dispatch({ type: "burgerWithFriesDecrement" });
+        dispatch({ type: "calculatePrice" });
+        break;
+      default:
+        dispatch({ type: "cheeseBurgerDecrement" });
+        dispatch({ type: "calculatePrice" });
+        break;
+    }
+  };
 
   return (
     <section className="cart">

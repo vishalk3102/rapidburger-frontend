@@ -1,6 +1,6 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "./reducers/userReducer";
-import { cartReducer } from "./reducers/cartReducer";
+import { cartReducer, orderReducer } from "./reducers/cartReducer";
 
 // const rootReducer = combineReducers({
 //   auth: authReducer,
@@ -8,7 +8,7 @@ import { cartReducer } from "./reducers/cartReducer";
 // });
 
 const store = configureStore({
-  reducer: { auth: authReducer, cart: cartReducer },
+  reducer: { auth: authReducer, cart: cartReducer, order: orderReducer },
 });
 
 export default store;

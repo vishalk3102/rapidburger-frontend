@@ -57,7 +57,7 @@ function App() {
       });
     }
     if (message) {
-      toast.error(error);
+      toast.success(message);
       dispatch({
         type: "clearMessage",
       });
