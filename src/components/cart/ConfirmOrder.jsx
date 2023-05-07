@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createOrder } from "../../redux/actions/orderAction";
+import {
+  createOrder,
+  paymentVerification,
+} from "../../redux/actions/orderAction";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { server } from "../../redux/store";
 
 const ConfirmOrder = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -16,7 +21,7 @@ const ConfirmOrder = () => {
     useSelector((state) => state.cart);
   const { message, error } = useSelector((state) => state.order);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     setDisableBtn(true);
 
@@ -33,6 +38,59 @@ const ConfirmOrder = () => {
         )
       );
     } else {
+      //creating order online
+
+      const {
+        data: { order, orderOptions },
+      } = await axios.post(
+        `${server}/createorderonline`,
+        {
+          shippingInfo,
+          orderItems: cartItems,
+          paymentMethod,
+          itemsPrice: subTotal,
+          taxPrice: tax,
+          shippingCharges,
+          totalAmount: total,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      const options = {
+        key: "rzp_test_UpZWBJjZ2chrfa",
+        amount: order.amount,
+        currency: "INR",
+        name: "VISHAL KUMAR",
+        description: "BURGER APP",
+        order_id: order.id,
+        handler: function (response) {
+          alert(response.razorpay_payment_id);
+          alert(response.razorpay_order_id);
+          alert(response.razorpay_signature);
+
+          const { razorpay_payment_id, razorpay_order_id, razorpay_signature } =
+            response;
+
+          dispatch(
+            paymentVerification(
+              razorpay_payment_id,
+              razorpay_order_id,
+              razorpay_signature,
+              orderOptions
+            )
+          );
+        },
+        theme: {
+          color: "#9c003c",
+        },
+      };
+      var razorPay = new window.Razorpay(options);
+      razorPay.open();
     }
   };
 

@@ -1,16 +1,18 @@
 import React from "react";
 import { Country, State } from "country-state-city";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Shipping = () => {
-  const [hNo, setHNo] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [state, setState] = useState("");
-  const [phoneNo, setphoneNo] = useState("");
-  const [pinCode, setPinCode] = useState("");
+  const { shippingInfo } = useSelector((state) => state.cart);
+
+  const [hNo, setHNo] = useState(shippingInfo.hNo);
+  const [city, setCity] = useState(shippingInfo.city);
+  const [country, setCountry] = useState(shippingInfo.country);
+  const [state, setState] = useState(shippingInfo.state);
+  const [phoneNo, setphoneNo] = useState(shippingInfo.phoneNo);
+  const [pinCode, setPinCode] = useState(shippingInfo.pinCode);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

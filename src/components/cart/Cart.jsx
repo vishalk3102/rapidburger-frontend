@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import burger1 from "../../assets/burger1.png";
 import burger2 from "../../assets/burger2.png";
@@ -33,6 +33,8 @@ const Cart = () => {
     shippingCharges,
     total,
   } = useSelector((state) => state.cart);
+
+  const { cartItems: orderItems } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
 
@@ -81,6 +83,18 @@ const Cart = () => {
     }
   };
 
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(orderItems));
+    localStorage.setItem(
+      "cartPrices",
+      JSON.stringify({
+        subTotal,
+        tax,
+        shippingCharges,
+        total,
+      })
+    );
+  }, [orderItems, subTotal, tax, shippingCharges, total]);
   return (
     <section className="cart">
       <main>

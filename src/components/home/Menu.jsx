@@ -3,9 +3,33 @@ import MenuCard from "./MenuCard";
 import burger1 from "../../assets/burger1.png";
 import burger2 from "../../assets/burger2.png";
 import burger3 from "../../assets/burger3.png";
+import { useDispatch } from "react-redux";
+import { toast } from "react-hot-toast";
 
 const Menu = () => {
-  const addToCartHandler = (itemNum) => {};
+  const dispatch = useDispatch();
+
+  const addToCartHandler = (itemNum) => {
+    switch (itemNum) {
+      case 1:
+        dispatch({ type: "cheeseBurgerIncrement" });
+        toast.success("Added to cart");
+        break;
+      case 2:
+        dispatch({ type: "vegCheeseBurgerIncrement" });
+        toast.success("Added to cart");
+        break;
+      case 3:
+        dispatch({ type: "burgerWithFriesIncrement" });
+        toast.success("Added to cart");
+        break;
+
+      default:
+        dispatch({ type: "cheeseBurgerIncrement" });
+        toast.success("Added to cart");
+        break;
+    }
+  };
 
   return (
     <section id="menu">
