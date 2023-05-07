@@ -60,7 +60,7 @@ const Orders = () => {
                     </td>
                     <td>₹{i.totalAmount}</td>
                     <td>{i.paymentMethod}</td>
-                    <td>{"vishal"}</td>
+                    <td>{i.user.name}</td>
                     <td>
                       <Link to={`/order/${i._id}`}>
                         <AiOutlineEye />
