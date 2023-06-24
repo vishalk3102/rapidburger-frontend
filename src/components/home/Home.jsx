@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import Founder from "./Founder";
 import Menu from "./Menu";
 
 const Home = () => {
@@ -19,7 +18,7 @@ const Home = () => {
     <>
       <section className="home">
         <div>
-          <motion.h1 {...options}>MBA Burger Wala</motion.h1>
+          <motion.h1 {...options}>Rapid burger </motion.h1>
           <motion.p
             {...options}
             transition={{
@@ -47,8 +46,6 @@ const Home = () => {
           Explore Menu
         </motion.a>
       </section>
-
-      <Founder />
 
       <Menu />
     </>
